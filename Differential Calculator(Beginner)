@@ -1,0 +1,49 @@
+from sympy import*
+x=symbols('x')
+f=eval(input("Enter your equation: "))
+interval=input("Enter your interval: ")
+a,b=[int(z) for z in interval.split(",")]
+
+plot(f,(x,a,b))
+
+df=diff(f,x)
+df2=diff(f,x,2)
+cpn=solve(df)
+
+dfl=[]
+cp=[]
+for i in cpn:
+   k=str(i.evalf())
+   if k[-1]!="I":
+     dfl.append(df2.subs(x,i).evalf())
+     cp.append(i.evalf())
+print("critical points: ",cp)
+print("df2 values: ",dfl)
+
+if len(dfl)!=0:
+ maxima=[]
+ minima=[]
+ for j in range(len(dfl)):
+  if dfl[j]<0:
+    maxima.append(f.subs(x,cp[j]).evalf())
+  elif dfl[j]>0:
+    minima.append(f.subs(x,cp[j]).evalf())
+ print(f"Local Maxima:{maxima}")
+ print(f"Local Minima:{minima}")
+ maxima.append(f.subs(x,a).evalf())
+ minima.append(f.subs(x,a).evalf())
+ maxima.append(f.subs(x,b).evalf())
+ minima.append(f.subs(x,b).evalf())
+
+ maxima.sort(reverse=True)
+ minima.sort()
+ print(f"maxima points: {maxima}")
+ print(f"minima points: {minima}")
+ print(f"Global Maximum: {maxima[0]} ")
+ print(f"Global Minimum: {minima[0]}")
+else:
+  print("No critical point is found, So there will be no minima or maxima")
+  new=[f.subs(x,a).evalf(),f.subs(x,b).evalf()]
+  new.sort()
+  print(f"Global Maximum: {new[1]} ")
+  print(f"Global Minimum: {new[0]}")
